@@ -1,5 +1,5 @@
 define dockutil::item (
-	$item, 
+	$item = "unset", 
 	$label, 
 	$action = "add", 
 	$position = "unset",
@@ -35,14 +35,9 @@ case $action {
 }
 
 exec {"kill dock $label": 
-	command =>  "killall Dock; sleep 3",
+	command =>  "killall -HUP Dock",
 	notify => Exec["sleep ${label}"],
 	refreshonly => true,
 	}
-	
-exec {"sleep $label": 
-	command => "sleep 1",
-	refreshonly => true,
-}
 
 }
