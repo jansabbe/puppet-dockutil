@@ -36,7 +36,6 @@ case $action {
 
 exec {"kill dock $label": 
 	command =>  "killall -HUP Dock",
-	notify => Exec["sleep ${label}"],
 	refreshonly => true,
 	}
 
