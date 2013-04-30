@@ -1,7 +1,7 @@
 class dockutil::base {
 
 	exec {"refresh dock": 
-		command =>  "${boxen::config::cachedir}/dockutil/scripts/dockutil --list && killall -HUP Dock",
+		command =>  "killall Dock && ${boxen::config::cachedir}/dockutil/scripts/dockutil --list && killall Dock",
 		refreshonly => true,
 	}
 
