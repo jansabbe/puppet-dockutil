@@ -19,7 +19,6 @@ case $action {
 				},
 			onlyif => "${boxen::config::cachedir}/dockutil/scripts/dockutil --find \"${label}\" | grep -qx \"${label} was not found in /Users/${::luser}/Library/Preferences/com.apple.dock.plist\"",
 			require => Repository['Dockutil'],
-			notify => Exec["kill dock ${label}"],
 		}
 	}
 	
@@ -28,15 +27,9 @@ case $action {
 			require => Repository['Dockutil'],
 			command => "${boxen::config::cachedir}/dockutil/scripts/dockutil --remove \"${label}\" --no-restart",
 			onlyif => "${boxen::config::cachedir}/dockutil/scripts/dockutil --find \"${label}\" | grep -q \"${label} was found\"",
-			notify => Exec["kill dock ${label}"],
 		}
 	}
 
 }
-
-exec {"kill dock $label": 
-	command =>  "killall Dock; sleep 4",
-	refreshonly => true,
-	}
 
 }
