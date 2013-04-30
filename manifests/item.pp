@@ -5,6 +5,7 @@ define dockutil::item (
 	$position = "unset",
 	)
 {
+include dockutil::base
 
 validate_re($action, '^(add|remove)$',
 "${action} is not supported for action.
@@ -19,6 +20,7 @@ case $action {
 				},
 			onlyif => "${boxen::config::cachedir}/dockutil/scripts/dockutil --find \"${label}\" | grep -qx \"${label} was not found in /Users/${::luser}/Library/Preferences/com.apple.dock.plist\"",
 			require => Repository['Dockutil'],
+			notify => Exec['refresh dock']
 		}
 	}
 	
@@ -27,6 +29,7 @@ case $action {
 			require => Repository['Dockutil'],
 			command => "${boxen::config::cachedir}/dockutil/scripts/dockutil --remove \"${label}\" --no-restart",
 			onlyif => "${boxen::config::cachedir}/dockutil/scripts/dockutil --find \"${label}\" | grep -q \"${label} was found\"",
+			notify => Exec['refresh dock']
 		}
 	}
 
